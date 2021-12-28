@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float jumpAmount = 0.5f;
     public Rigidbody2D rb;
 
+    public SpriteRenderer spriteRenderer;
     private bool Jump;
     private Vector3 moveVector;
 
