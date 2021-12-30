@@ -8,48 +8,55 @@ public class CharacterActions : MonoBehaviour
     public GameObject arrowUpPrefabs;
     public GameObject leftRightArrowPrefabs;
     public int[] arr;
-  
+    public float factorLeftRightArrow = 0.5769285f;
+    public float factorArrowUp = 1.0f ;
+
     void Start()
     {
-        PrefabInitial();
+        int[] arr = new int[] { 0, 0, 1};
+        PrefabActions(arr);
     }
 
     // Update is called once per frame
     void Update()
     {}
     
-    void PrefabActions()
+    void PrefabActions(int[] arr)
     {
-        int[] arr = new int[] { 0, 0, 1, 0, 1 };
-        float tr = 0;
+     
+        float pos = 0;
         for (int i = 0; i < arr.Length; i++)
         {
          
-            GameObject go;
+            GameObject objectActoins;
 
             if (arr[i] == 0)
             {
-                go = Instantiate(arrowUpPrefabs);
-                go.transform.position = new Vector3((transform.position.x) + tr, transform.position.y, transform.position.z);
+                objectActoins = Instantiate(arrowUpPrefabs);
+
+                objectActoins.transform.position = new Vector3((transform.position.x) + pos, transform.position.y, transform.position.z);
+
                 if (i < arr.Length - 1)
                 {
                     if (arr[i + 1] == 0)
-                        tr = tr + 1.0f;
+                        pos = pos + factorArrowUp;
                     else
-                        tr = tr + 0.5769285f + 1.0f;
+                        pos = pos + factorArrowUp + factorLeftRightArrow;
                 }    
 
             }
             else
             {
-                go = Instantiate(leftRightArrowPrefabs);
-                go.transform.position = new Vector3((transform.position.x) + tr, transform.position.y, transform.position.z);
+                objectActoins = Instantiate(leftRightArrowPrefabs);
+
+                objectActoins.transform.position = new Vector3((transform.position.x) + pos, transform.position.y, transform.position.z);
+
                 if (i < arr.Length - 1)
                 {
                     if (arr[i + 1] == 0 && i < arr.Length - 1)
-                        tr = tr + 1.0f;
+                        pos = pos + factorArrowUp;
                     else
-                        tr = tr + 0.5769285f + 1.0f;
+                        pos = pos + factorArrowUp + factorLeftRightArrow;
 
                 }
               
