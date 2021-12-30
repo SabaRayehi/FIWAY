@@ -14,20 +14,40 @@ public class PlayerController : MonoBehaviour
     private bool Jump;
     private Vector3 moveVector;
     public int[] arr;
-     public Stack<int> myStack = new Stack<int>();
+    public int maxNumber;
+    public Stack<int> stackAction = new Stack<int>();
+    public Stack<GameObject> stackGameobject = new Stack<GameObject>();
+
+
 
     void Start()
     {
+        GameObject  []other;
 
         Jump = true;
-        moveVector = new Vector3(1 * factor, 0, 0);
-        int[] arr = new int[] { 0, 0, 1 };
-       
-        myStack.Push(0);
-        myStack.Push(1);
-        myStack.Push(0);
-        myStack.Push(1);
 
+        moveVector = new Vector3(1 * factor, 0, 0);
+
+        int[] arr = new int[] { 0, 0, 1 };
+
+
+        other = GameObject.FindGameObjectsWithTag("Actions");
+
+        maxNumber = GameObject.FindGameObjectsWithTag("Actions").Length;
+
+        Debug.Log("max" + maxNumber);
+
+        for (int i = maxNumber-1; i >=0 ; i--)
+        {
+          stackGameobject.Push(other[i]);
+        }
+        for (int i = 0; i < arr.Length; i++)
+        {
+            stackAction.Push(arr[i]);
+           
+        }
+
+      
     }
 
     void Update()
@@ -43,19 +63,19 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
        {
-            pleyerActions(myStack);
+            pleyerActions(stackAction,stackGameobject) ;
 
         }
 
        if (Input.GetKeyDown(KeyCode.DownArrow))
        {
-            pleyerActions(myStack);
+            pleyerActions(stackAction,stackGameobject);
 
         }
 
        if (Input.GetKeyDown(KeyCode.Space) && Jump)
        {
-            pleyerActions(myStack);
+            pleyerActions(stackAction,stackGameobject);
         }
       
        
@@ -66,14 +86,16 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void pleyerActions(Stack<int> stackActions)
+    private void pleyerActions(Stack<int> stackPlayerActions , Stack<GameObject> stackActionsGameobject)
     {
       
          Debug.Log("stackActions");
-      
-        if (stackActions.Count > 0)
+     
+
+
+        if (stackPlayerActions.Count > 0)
         {
-            var p_actions = stackActions.Pop();
+            var p_actions = stackPlayerActions.Pop();
 
             Debug.Log("currentActions " + p_actions);
             
@@ -81,13 +103,16 @@ public class PlayerController : MonoBehaviour
             {
                
                 rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
+      
+                 Destroy(stackActionsGameobject.Pop());
 
             }
     
             else if (p_actions == 1)
             {
                 rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
-
+              
+                Destroy(stackActionsGameobject.Pop());
 
             }
 

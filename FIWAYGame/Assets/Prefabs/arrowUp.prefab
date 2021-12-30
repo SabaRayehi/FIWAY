@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7534032899973552555}
   m_Layer: 0
   m_Name: arrowUp
-  m_TagString: Untagged
+  m_TagString: Actions
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
