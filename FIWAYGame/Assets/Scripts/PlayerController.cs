@@ -120,6 +120,18 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DeathZone"))
+
+        {
+            Debug.Log("DEATH ZONE");
+            this.gameObject.SetActive(false);
+
+
+        }
+
+    }
 
     }
 
