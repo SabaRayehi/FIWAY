@@ -33,7 +33,7 @@ public class GameOverManagement : MonoBehaviour
     {
        
         Debug.Log("Quit");
-        UnityEditor.EditorApplication.isPlaying = false;
+       // UnityEditor.EditorApplication.isPlaying = false;
     }
 }
 
