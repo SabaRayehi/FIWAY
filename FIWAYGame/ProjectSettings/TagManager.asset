@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Actions
   - DeathZone
+  - Win
   layers:
   - Default
   - TransparentFX

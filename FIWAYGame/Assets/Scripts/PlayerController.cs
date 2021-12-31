@@ -127,9 +127,16 @@ public class PlayerController : MonoBehaviour
 
         {
             Debug.Log("DEATH ZONE");
-            this.gameObject.SetActive(false);
+           // this.gameObject.SetActive(false);
             gameOverManagement.Setup();
 
+        }
+
+
+        if (collision.gameObject.CompareTag("Win"));
+        {
+            this.gameObject.SetActive(false);
+            Debug.Log("win");
         }
 
     }
