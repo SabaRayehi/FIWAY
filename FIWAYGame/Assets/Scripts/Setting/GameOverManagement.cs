@@ -23,16 +23,16 @@ public class GameOverManagement : MonoBehaviour
         gameObject.SetActive(true);
 
     }
+  
+
     public void RetryManagement()
     {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
-    public void QuitManagement()
+    public void Quit()
     {
-
-        Appliction.Quit();
+        Application.Quit();
+        Debug.Log("Quit");
     }
 }
 
