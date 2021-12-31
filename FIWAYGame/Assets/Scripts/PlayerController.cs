@@ -135,18 +135,30 @@ public class PlayerController : MonoBehaviour
             // this.gameObject.SetActive(false);
            SceneManager.LoadScene("GameOverScene");
 
+
         }
-        if (collision.gameObject.CompareTag("Win")) ;
-        {
-            this.gameObject.SetActive(false);
-           levelManagment.level();
-        }
+       
 
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Win")) ;
 
-   
-    
-}
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                this.gameObject.SetActive(false);
+                 Debug.Log("Win");
+                 SceneManager.LoadScene("LevelScene");
+            }
+
+        }
+    }
+
+
+
+
+    }
 
 
 
