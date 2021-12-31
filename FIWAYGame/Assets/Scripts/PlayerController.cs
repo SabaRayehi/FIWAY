@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public Stack<int> stackAction = new Stack<int>();
     public Stack<GameObject> stackGameobject = new Stack<GameObject>();
     public GameOverManagement gameOverManagement;
+    public LevelManagment levelManagment;
+   
 
 
 
@@ -47,12 +50,14 @@ public class PlayerController : MonoBehaviour
             stackAction.Push(arr[i]);
            
         }
+       
 
-      
     }
 
     void Update()
+
     {
+ 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.position -= moveVector;
@@ -127,21 +132,21 @@ public class PlayerController : MonoBehaviour
 
         {
             Debug.Log("DEATH ZONE");
-           // this.gameObject.SetActive(false);
-            gameOverManagement.Setup();
+            // this.gameObject.SetActive(false);
+           SceneManager.LoadScene("GameOverScene");
 
         }
-
-
-        if (collision.gameObject.CompareTag("Win"));
+        if (collision.gameObject.CompareTag("Win")) ;
         {
             this.gameObject.SetActive(false);
-            Debug.Log("win");
+           levelManagment.level();
         }
 
     }
 
-    }
+   
+    
+}
 
 
 
