@@ -31,8 +31,9 @@ public class GameOverManagement : MonoBehaviour
     }
     public void Quit()
     {
-        Application.Quit();
+       
         Debug.Log("Quit");
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 }
 
