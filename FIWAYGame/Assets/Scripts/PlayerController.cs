@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public int maxNumber;
     public Stack<int> stackAction = new Stack<int>();
     public Stack<GameObject> stackGameobject = new Stack<GameObject>();
+    public GameOverManagement gameOverManagement;
 
 
 
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("DEATH ZONE");
             this.gameObject.SetActive(false);
-
+            gameOverManagement.Setup();
 
         }
 
