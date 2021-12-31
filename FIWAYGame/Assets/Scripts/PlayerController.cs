@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
 {
 
     public float factor = 0.09f;
+    public float fact = 0.09f;
     public float jumpAmount = 0.5f;
     public Rigidbody2D rb;
 
     public SpriteRenderer spriteRenderer;
     private bool Jump;
     private Vector3 moveVector;
+    private Vector3 moves;
     public int[] arr;
     public int maxNumber;
     public Stack<int> stackAction = new Stack<int>();
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         Jump = true;
 
         moveVector = new Vector3(1 * factor, 0, 0);
+        moves= new Vector3( 1 * fact,0, 0);
 
         int[] arr = new int[] { 0, 0, 1 };
 
@@ -45,7 +48,7 @@ public class PlayerController : MonoBehaviour
         {
           stackGameobject.Push(other[i]);
         }
-        for (int i = 0; i < arr.Length; i++)
+        for (int i = (arr.Length) - 1 ; i >=0; i--)
         {
             stackAction.Push(arr[i]);
            
@@ -96,8 +99,7 @@ public class PlayerController : MonoBehaviour
     {
       
          Debug.Log("stackActions");
-     
-
+        
 
         if (stackPlayerActions.Count > 0)
         {
@@ -116,8 +118,9 @@ public class PlayerController : MonoBehaviour
     
             else if (p_actions == 1)
             {
-                rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
-              
+               rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
+                transform.position += moves;
+
                 Destroy(stackActionsGameobject.Pop());
 
             }
