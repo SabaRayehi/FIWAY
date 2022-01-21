@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 
 {
+    [SerializeField]
+    PlayerActions act;
     [Header("Player Parameters")]
     [SerializeField]
     private float fact;
@@ -14,7 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpAmount;
     [SerializeField]
-    private Vector3 moveVector;
+    private Vector2 moveVector;
+    [Header("Cool Downs")]
+    [SerializeField]
+    private float actionCooldown;
+    [SerializeField]
+    private float rushCooldown;
     private Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
     private bool Jump;
@@ -23,14 +30,29 @@ public class PlayerController : MonoBehaviour
     private bool action = false;
     private bool grounded = false;
     private bool canRush = false;
+    private bool canAction = true;
+    private int direction = 1;
 
 
 
-
-    void Start()
+    private void OnEnable()
     {
+        act = GameObject.Find("PlayerActions").GetComponent<PlayerActions>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
+    IEnumerator action_Cooldown()
+    {
+        yield return new WaitForSeconds(actionCooldown);
+        canAction = true;
+    }
+
+    IEnumerator rush_Cooldown()
+    {
+        yield return new WaitForSeconds(rushCooldown);
+        canRush = false;
+        rb.velocity = Vector2.zero;
+    }
     void Update()
 
     {
@@ -60,6 +82,37 @@ public class PlayerController : MonoBehaviour
                 transform.Translate(transform.right * factor * horizontalInput * Time.deltaTime);
             }
 
+        }
+        if (action && canAction)
+        {
+            bool actionDone = false;
+            if (act.actions.Count > 0)
+            {
+                Action a = act.actions.Peek();
+
+                switch (a)
+                {
+                    case Action.Jump:
+                        if (grounded)
+                            actionDone = act.JumpAction(rb, transform.up * jumpAmount);
+
+                        break;
+                    case Action.Rush:
+                       
+                        canRush = true;
+                        actionDone = act.RushAction(rb, new Vector2(moveVector.x * direction, moveVector.y));
+                        StartCoroutine(rush_Cooldown());
+
+                        break;
+                    
+                }
+            }
+            if (actionDone)
+            {
+                act.actions.Dequeue();
+                action = canAction = false;
+                StartCoroutine(action_Cooldown());
+            }
         }
 
     }
