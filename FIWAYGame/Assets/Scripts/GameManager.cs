@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct LevelData
@@ -22,11 +23,23 @@ public class GameManager : MonoBehaviour
     public LevelData[] Levels;
     private PlayerController player;
     private List<GameObject> allBlocks = new List<GameObject>();
+    public GameObject LevelButtonTemplate;
+    public Transform LevelButtonPlaceholder;
+    public GameObject GameOverPanel, LevelsPanel;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(LoadScene(CurrentLevel));
+        // StartCoroutine(LoadScene(CurrentLevel));
+        int i = 0;
+
+        foreach (var l in Levels)
+        {
+            GameObject go = Instantiate(LevelButtonTemplate, LevelButtonPlaceholder);
+            go.GetComponent<LevelButtonLogic>().levelIndex = i;
+            go.GetComponentInChildren<Text>().text = i.ToString();
+            i++;
+        }
     }
 
     public void AddAction(Action iAction)
@@ -78,5 +91,15 @@ public class GameManager : MonoBehaviour
     {
 
     }
+    public void LoadLevel(int iLevel)
+    {
+        CurrentLevel = iLevel;
+        LevelsPanel.SetActive(false);
+
+    }
+   
+   
+
+
 }
 
