@@ -234,9 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074a300209df9ae4ba6425176becf9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPlaces: []
   LevelNames:
   - lvl0
+  - lvl1
   InstatiableBlocks:
   - {fileID: 6032822513684608646, guid: 29ff3cb9f8a2c0d43be1573b2371f1de, type: 3}
   - {fileID: 5987874990030473423, guid: 60ba1f03a6d80fc4ca567dd77120e240, type: 3}
@@ -250,7 +250,16 @@ MonoBehaviour:
   - {fileID: 5570138541884309639, guid: 9073676eec8d63744a303f3d0468d650, type: 3}
   - {fileID: 4496479479456652282, guid: 7fced1686e35c1349859cf2dc92beeb6, type: 3}
   - {fileID: 1724197878483413138, guid: 44fbf0c691ff03c43af2bfebb4311261, type: 3}
+  - {fileID: 513744733791085255, guid: 273461bafa3197f4ea53ccd39b84bb23, type: 3}
+  - {fileID: 513744733791085255, guid: 084e584a846f7ba4b9ed77f926e3d6a9, type: 3}
+  - {fileID: 513744733791085255, guid: 2dae5dcce7659e349a9649320a417d55, type: 3}
+  - {fileID: 513744733791085255, guid: 88971f70ea28a974b80edc169d3cb24b, type: 3}
   CurrentLevel: 0
+  Levels: []
+  LevelButtonTemplate: {fileID: 0}
+  LevelButtonPlaceholder: {fileID: 0}
+  GameOverPanel: {fileID: 0}
+  LevelsPanel: {fileID: 0}
 --- !u!4 &1490640554
 Transform:
   m_ObjectHideFlags: 0
@@ -359,15 +368,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702286c970d5a3b4582d9295131eb1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factor: 0.09
+  act: {fileID: 0}
   fact: 0.09
+  factor: 0.09
   jumpAmount: 40
-  rb: {fileID: 1496442745}
+  moveVector: {x: 0, y: 0}
+  invincible: 2.5
+  actionCooldown: 0
+  rushCooldown: 0
   spriteRenderer: {fileID: 1496442748}
-  arr: 
-  maxNumber: 0
-  gameOverManagement: {fileID: 0}
-  levelManagment: {fileID: 0}
 --- !u!212 &1496442748
 SpriteRenderer:
   m_ObjectHideFlags: 0
