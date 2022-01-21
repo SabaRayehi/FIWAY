@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+[System.Serializable]
+public struct BlockRow
 {
 
+    public GameObject[] Blocks;
+}
 
-    [System.Serializable]
-    public struct BlockRow
-    {
-
-        public GameObject[] Blocks;
-    }
+public class GameManager : MonoBehaviour
+{
     public BlockRow[] BlockPlaces;
     public string[] LevelNames;
     public GameObject[] InstatiableBlocks;
@@ -29,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         TextAsset mytxtData = (TextAsset)Resources.Load(LevelNames[iCunrretLevel]);
         string txt = mytxtData.text;
-       
         string[] rows = txt.Split(';');
         foreach (string row in rows)
         {
@@ -53,3 +51,4 @@ public class GameManager : MonoBehaviour
 
     }
 }
+
