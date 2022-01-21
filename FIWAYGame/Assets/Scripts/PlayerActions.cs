@@ -16,4 +16,16 @@ public class PlayerActions : MonoBehaviour
         actions = new Queue<Action>();
     }
 
+    public bool JumpAction(Rigidbody2D rb, Vector2 vect)
+    {
+        rb.AddForce(vect);
+        return true;
+
+    }
+    public bool RushAction(Rigidbody2D rb, Vector2 vect)
+    {
+        rb.AddForce(vect, ForceMode2D.Impulse);
+        return true;
+    }
+   
 }
