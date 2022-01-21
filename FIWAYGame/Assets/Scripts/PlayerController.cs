@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 
 {
-
-    public float factor = 0.09f;
-    public float fact = 0.09f;
-    public float jumpAmount = 0.5f;
-    public Rigidbody2D rb;
-
+    [Header("Player Parameters")]
+    [SerializeField]
+    private float fact;
+    [SerializeField]
+    private float factor;
+    [SerializeField]
+    private float jumpAmount;
+    [SerializeField]
+    private Vector3 moveVector;
+    private Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
     private bool Jump;
-    private Vector3 moveVector;
     private Vector3 moves;
     public int[] arr;
     public int maxNumber;
@@ -22,7 +25,11 @@ public class PlayerController : MonoBehaviour
     public Stack<GameObject> stackGameobject = new Stack<GameObject>();
     public GameOverManagement gameOverManagement;
     public LevelManagment levelManagment;
-   
+    private float horizontalInput;
+    private bool  action = false;
+    private bool grounded = false;
+    private bool canRush = false;
+
 
 
 
@@ -60,40 +67,35 @@ public class PlayerController : MonoBehaviour
     void Update()
 
     {
- 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            transform.position -= moveVector;
+            action = true;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.position += moveVector;
-
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-       {
-            pleyerActions(stackAction,stackGameobject) ;
-
-        }
-
-       if (Input.GetKeyDown(KeyCode.DownArrow))
-       {
-            pleyerActions(stackAction,stackGameobject);
-
-        }
-
-       if (Input.GetKeyDown(KeyCode.Space) && Jump)
-       {
-            pleyerActions(stackAction,stackGameobject);
-        }
-      
-       
-
-
+        movement();
 
     }
+    private void movement()
+    {
+        if (canRush)
+        {
+            if (grounded)
+            {
 
+                rb.velocity = new Vector2((transform.right * fact * horizontalInput).x, rb.velocity.y);
+                transform.Translate(transform.right * fact * horizontalInput * Time.deltaTime);
+            }
+           
+            else
+            {
+                rb.velocity = new Vector2((transform.right * factor * horizontalInput).x, rb.velocity.y);
+                transform.Translate(transform.right * factor * horizontalInput * Time.deltaTime);
+            }
 
+        }
+       
+    }
 
     private void pleyerActions(Stack<int> stackPlayerActions , Stack<GameObject> stackActionsGameobject)
     {
