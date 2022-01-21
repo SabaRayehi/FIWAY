@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private float jumpAmount;
     [SerializeField]
     private Vector2 moveVector;
+    [SerializeField]
+    private float invincible = 2.5f;
     [Header("Cool Downs")]
     [SerializeField]
     private float actionCooldown;
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool canAction = true;
     private int direction = 1;
     private float changeDirection = .005f;
+    private bool canBeHurt = true;
 
 
 
@@ -53,6 +56,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(rushCooldown);
         canRush = false;
         rb.velocity = Vector2.zero;
+    }
+
+    IEnumerator invinceble_Cooldown()
+    {
+        yield return new WaitForSeconds(invincible);
+        canBeHurt = true;
     }
     void Update()
 
@@ -138,35 +147,25 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+   
+    public void Heart(Vector2 vect)
     {
-        if (collision.gameObject.CompareTag("DeathZone"))
-
+        if (canBeHurt)
         {
-            Debug.Log("DEATH ZONE");
-            // this.gameObject.SetActive(false);
-            SceneManager.LoadScene("GameOverScene");
-
-
+            rb.AddForce(vect, ForceMode2D.Impulse);
+            canBeHurt = false;
+            StartCoroutine(invinceble_Cooldown());
         }
 
-
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Win")) ;
-
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                this.gameObject.SetActive(false);
-                Debug.Log("Win");
-                SceneManager.LoadScene("LevelScene");
-            }
-
-        }
+        grounded = true;
     }
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        grounded = false;
+    }
 
 
 }
