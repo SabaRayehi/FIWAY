@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool canRush = false;
     private bool canAction = true;
     private int direction = 1;
+    private float changeDirection = .005f;
 
 
 
@@ -62,8 +63,22 @@ public class PlayerController : MonoBehaviour
         {
             action = true;
         }
-        movement();
+     
 
+    }
+    private void detectDirection()
+    {
+        if (rb.velocity.x > changeDirection)
+        {
+            direction = 1;
+
+        }
+        else if (rb.velocity.x < -changeDirection)
+        {
+            direction = -1;
+        }
+        transform.localScale = new Vector3(direction, 1, 1);
+       
     }
     private void movement()
     {
@@ -83,6 +98,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        detectDirection();
         if (action && canAction)
         {
             bool actionDone = false;
@@ -116,8 +132,10 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-
+    private void FixedUpdate()
+    {
+        movement();
+    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
