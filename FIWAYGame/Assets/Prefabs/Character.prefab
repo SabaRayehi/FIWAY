@@ -160,8 +160,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702286c970d5a3b4582d9295131eb1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  act: {fileID: 0}
   fact: 0
   factor: 0
   jumpAmount: 0
-  moveVector: {x: 0, y: 0, z: 0}
+  moveVector: {x: 0, y: 0}
+  invincible: 2.5
+  actionCooldown: 0
+  rushCooldown: 0
   spriteRenderer: {fileID: 0}
