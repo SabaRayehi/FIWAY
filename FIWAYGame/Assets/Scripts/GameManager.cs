@@ -91,14 +91,42 @@ public class GameManager : MonoBehaviour
     {
 
     }
+
     public void LoadLevel(int iLevel)
     {
         CurrentLevel = iLevel;
+        RestartGame();
         LevelsPanel.SetActive(false);
 
     }
-   
-   
+
+    public void RestartGame()
+    {
+        GameOverPanel.SetActive(false);
+        StopAllCoroutines();
+        gameStarted = false;
+        DestroyLevel();
+        StartCoroutine(LoadScene(CurrentLevel));
+    }
+
+    void DestroyLevel()
+    {
+        foreach (GameObject g in allBlocks)
+        {
+            Destroy(g);
+        }
+        allBlocks = new List<GameObject>();
+
+    }
+    public void GameOver()
+    {
+        
+        GameOverPanel.SetActive(true);
+        DestroyLevel();
+        gameStarted = false;
+        GameObject.Find("PlayerActions").GetComponent<PlayerActions>().actions.Clear();
+      
+    }
 
 
 }
