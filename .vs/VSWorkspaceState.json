@@ -3,7 +3,9 @@
     "",
     "\\FIWAYGame",
     "\\FIWAYGame\\Assets",
-    "\\FIWAYGame\\Assets\\Map"
+    "\\FIWAYGame\\Assets\\Map",
+    "\\FIWAYGame\\Assets\\Scripts"
   ],
+  "SelectedNode": "\\FIWAYGame\\Assets\\Scripts\\GameManager.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> allBlocks = new List<GameObject>();
     public GameObject LevelButtonTemplate;
     public Transform LevelButtonPlaceholder;
-    public GameObject GameOverPanel, LevelsPanel;
+    public GameObject GameOverPanel, LevelsPanel, VictoryPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +100,28 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void LevelFinished()
+    {
+        CurrentLevel++;
+        if (CurrentLevel < Levels.Length)
+        {
+            StopAllCoroutines();
+            gameStarted = false;
+            DestroyLevel();
+            StartCoroutine(LoadScene(CurrentLevel));
+
+        }
+        else
+        {
+            StopAllCoroutines();
+            gameStarted = false;
+            DestroyLevel();
+            VictoryPanel.SetActive(true);
+           
+        }
+    }
+
+
     public void RestartGame()
     {
         GameOverPanel.SetActive(false);
@@ -126,6 +148,10 @@ public class GameManager : MonoBehaviour
         gameStarted = false;
         GameObject.Find("PlayerActions").GetComponent<PlayerActions>().actions.Clear();
       
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
 
