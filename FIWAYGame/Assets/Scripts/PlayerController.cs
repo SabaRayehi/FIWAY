@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool grounded = false;
     private bool canRush = false;
     private bool canAction = true;
+    [SerializeField]
     private int direction = 1;
     private float changeDirection = .005f;
     private bool canBeHurt = true;

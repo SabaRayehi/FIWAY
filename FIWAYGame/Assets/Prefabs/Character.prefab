@@ -161,11 +161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   act: {fileID: 0}
-  fact: 0
-  factor: 0
-  jumpAmount: 0
-  moveVector: {x: 0, y: 0}
-  invincible: 2.5
-  actionCooldown: 0
-  rushCooldown: 0
+  fact: 5
+  factor: 3
+  jumpAmount: 450
+  moveVector: {x: 25, y: 2}
+  invincible: 0.3
+  actionCooldown: 0.3
+  rushCooldown: 0.2
   spriteRenderer: {fileID: 0}
