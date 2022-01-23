@@ -387,8 +387,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: _RestartGame
+      - m_Target: {fileID: 1490640553}
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1935,7 +1935,7 @@ GameObject:
   - component: {fileID: 1490640553}
   - component: {fileID: 1490640555}
   m_Layer: 0
-  m_Name: GameManger
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1980,10 +1980,10 @@ MonoBehaviour:
     LevelTime: 20
     LifeAdd: 0
     StartActions: 010000000100000000000000
-  - LevelName: 
-    LevelTime: 0
+  - LevelName: lvl1
+    LevelTime: 20
     LifeAdd: 0
-    StartActions: 
+    StartActions: 010000000100000000000000
   LevelButtonTemplate: {fileID: 5925978357807420924, guid: 412e21acba24a0e48b204b419fb36284,
     type: 3}
   LevelButtonPlaceholder: {fileID: 1931638645}
@@ -2507,8 +2507,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: _QuitGame
+      - m_Target: {fileID: 1490640553}
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
