@@ -26,11 +26,17 @@ public class GameManager : MonoBehaviour
     public GameObject LevelButtonTemplate;
     public Transform LevelButtonPlaceholder;
     public GameObject GameOverPanel, LevelsPanel, VictoryPanel;
+    public UIController UI;
+    int globalHealth = 0;
+    int levelTime = 0;
+    [Range(0, 10)]
+    public float TimeScale = 1;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         // StartCoroutine(LoadScene(CurrentLevel));
+        Time.timeScale = TimeScale;
         int i = 0;
 
         foreach (var l in Levels)
@@ -83,13 +89,18 @@ public class GameManager : MonoBehaviour
             GameObject.Find("PlayerActions").GetComponent<PlayerActions>().actions.Enqueue(a);
         }
         gameStarted = true;
+        levelTime = Levels[iCunrretLevel].LevelTime;
+        globalHealth += Levels[iCunrretLevel].LifeAdd;
+        UI.UpdateHealth(globalHealth);
+        StartCoroutine(StartTimer());
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (gameStarted && player)
+            UI.UpdateUI();
     }
 
     public void LoadLevel(int iLevel)
@@ -117,7 +128,8 @@ public class GameManager : MonoBehaviour
             gameStarted = false;
             DestroyLevel();
             VictoryPanel.SetActive(true);
-           
+            UI.UpdateWonScreen(globalHealth, Levels.Length);
+
         }
     }
 
@@ -138,11 +150,12 @@ public class GameManager : MonoBehaviour
             Destroy(g);
         }
         allBlocks = new List<GameObject>();
+        levelTime = 0;
 
     }
     public void GameOver()
     {
-        
+        globalHealth = 0;
         GameOverPanel.SetActive(true);
         DestroyLevel();
         gameStarted = false;
@@ -153,7 +166,46 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void LaserActed()
+    {
+        foreach (GameObject g in allBlocks)
+        {
+            if (g.CompareTag("Laser"))
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+    }
+    public void ChangeHealth(int iAmount)
+    {
 
+        globalHealth += iAmount;
+        if (globalHealth < 0)
+        {
+            GameOver();
+        }
+        UI.UpdateHealth(globalHealth);
+
+    }
+    public void AddTime(int iTime)
+    {
+        levelTime += iTime;
+    }
+    IEnumerator StartTimer()
+    {
+
+        while (true)
+        {
+            UI.UpdateTimer(levelTime);
+
+            yield return new WaitForSeconds(TimeScale);
+            levelTime--;
+            if (levelTime < 0)
+                break;
+
+        }
+        GameOver();
+    }
 
 }
 
