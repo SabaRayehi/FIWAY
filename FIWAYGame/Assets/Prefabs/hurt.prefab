@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 477186633263542901}
   - component: {fileID: -8705280513080862026}
   - component: {fileID: -1265578167453995322}
+  - component: {fileID: 1872540739043363406}
   m_Layer: 0
   m_Name: hurt
   m_TagString: Untagged
@@ -130,3 +131,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.28, y: 1.28}
   m_EdgeRadius: 0
+--- !u!114 &1872540739043363406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459038566161124974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358127e9e153f8941ae3b2e23e2d9e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LifeToAdd: 1
