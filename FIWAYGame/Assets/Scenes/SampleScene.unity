@@ -1980,10 +1980,22 @@ MonoBehaviour:
     LevelTime: 20
     LifeAdd: 0
     StartActions: 010000000100000000000000
-  - LevelName: lvl1
-    LevelTime: 20
+  - LevelName: lvl2
+    LevelTime: 30
     LifeAdd: 0
-    StartActions: 010000000100000000000000
+    StartActions: 0000000001000000000000000000000000000000
+  - LevelName: lvl3
+    LevelTime: 35
+    LifeAdd: 0
+    StartActions: 0000000001000000000000000000000001000000
+  - LevelName: lvl4
+    LevelTime: 72
+    LifeAdd: 0
+    StartActions: 
+  - LevelName: lvl5
+    LevelTime: 72
+    LifeAdd: 0
+    StartActions: 000000000100000002000000000000000200000000000000000000000200000000000000
   LevelButtonTemplate: {fileID: 5925978357807420924, guid: 412e21acba24a0e48b204b419fb36284,
     type: 3}
   LevelButtonPlaceholder: {fileID: 1931638645}
