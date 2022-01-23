@@ -1953,9 +1953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074a300209df9ae4ba6425176becf9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelNames:
-  - lvl0
-  - lvl1
   InstatiableBlocks:
   - {fileID: 6032822513684608646, guid: 29ff3cb9f8a2c0d43be1573b2371f1de, type: 3}
   - {fileID: 5987874990030473423, guid: 60ba1f03a6d80fc4ca567dd77120e240, type: 3}
@@ -1990,9 +1987,11 @@ MonoBehaviour:
   LevelButtonTemplate: {fileID: 5925978357807420924, guid: 412e21acba24a0e48b204b419fb36284,
     type: 3}
   LevelButtonPlaceholder: {fileID: 1931638645}
-  GameOverPanel: {fileID: 1931638644}
+  GameOverPanel: {fileID: 1178372144}
   LevelsPanel: {fileID: 1586909590}
   VictoryPanel: {fileID: 731445913}
+  UI: {fileID: 1073543655}
+  TimeScale: 1
 --- !u!4 &1490640554
 Transform:
   m_ObjectHideFlags: 0

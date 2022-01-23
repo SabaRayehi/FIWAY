@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 5925978357807420920}
   - component: {fileID: 5925978357807420927}
   - component: {fileID: 5925978357807420926}
-  - component: {fileID: 5304149971108052628}
+  - component: {fileID: 4409329853121550836}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5304149971108052628}
+      - m_Target: {fileID: 4409329853121550836}
         m_MethodName: LoadLevel
         m_Mode: 1
         m_Arguments:
@@ -207,7 +207,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SampleScene
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &5925978357807420926
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0.2735849, g: 0.250356, b: 0.250356, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &5304149971108052628
+--- !u!114 &4409329853121550836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,4 +237,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d41cb5ab4ab0745b04164cf0dea580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelIndex: 0
+  levelIndex: 1

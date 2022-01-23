@@ -14,7 +14,7 @@ public struct LevelData
 }
 public class GameManager : MonoBehaviour
 {
-    public string[] LevelNames;
+   
     public GameObject[] InstatiableBlocks;
     float horFact = 1.28f, vertFact = -1.28f;
     float horPos = 0f, verPos = 0f;
