@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public enum Action {
     Jump = 0,
-    Rush = 1
+    Rush = 1,
+    Laser = 2
 }
 
 public class PlayerActions : MonoBehaviour
@@ -27,5 +28,10 @@ public class PlayerActions : MonoBehaviour
         rb.AddForce(vect, ForceMode2D.Impulse);
         return true;
     }
-   
+    public bool LaserAction()
+    {
+        GameObject.Find("GameManager").GetComponent<GameManager>().LaserActed();
+        return true;
+    }
+
 }

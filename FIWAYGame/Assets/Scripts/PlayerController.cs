@@ -129,7 +129,11 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(rush_Cooldown());
 
                         break;
-                    
+                    case Action.Laser:
+
+                        actionDone = act.LaserAction();
+                        break;
+
                 }
             }
             if (actionDone)
