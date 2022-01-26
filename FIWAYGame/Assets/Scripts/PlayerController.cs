@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 
 {
+    [SerializeField]
+    PlayerActions act;
     [Header("Player Parameters")]
     [SerializeField]
     private float fact;
@@ -14,7 +16,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpAmount;
     [SerializeField]
-    private Vector3 moveVector;
+    private Vector2 moveVector;
+    [SerializeField]
+    private float invincible = 2.5f;
+    [Header("Cool Downs")]
+    [SerializeField]
+    private float actionCooldown;
+    [SerializeField]
+    private float rushCooldown;
     private Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
     private bool Jump;
@@ -23,14 +32,38 @@ public class PlayerController : MonoBehaviour
     private bool action = false;
     private bool grounded = false;
     private bool canRush = false;
+    private bool canAction = true;
+    [SerializeField]
+    private int direction = 1;
+    private float changeDirection = .005f;
+    private bool canBeHurt = true;
 
 
 
-
-    void Start()
+    private void OnEnable()
     {
+        act = GameObject.Find("PlayerActions").GetComponent<PlayerActions>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
+    IEnumerator action_Cooldown()
+    {
+        yield return new WaitForSeconds(actionCooldown);
+        canAction = true;
+    }
+
+    IEnumerator rush_Cooldown()
+    {
+        yield return new WaitForSeconds(rushCooldown);
+        canRush = false;
+        rb.velocity = Vector2.zero;
+    }
+
+    IEnumerator invinceble_Cooldown()
+    {
+        yield return new WaitForSeconds(invincible);
+        canBeHurt = true;
+    }
     void Update()
 
     {
@@ -40,8 +73,22 @@ public class PlayerController : MonoBehaviour
         {
             action = true;
         }
-        movement();
+     
 
+    }
+    private void detectDirection()
+    {
+        if (rb.velocity.x > changeDirection)
+        {
+            direction = 1;
+
+        }
+        else if (rb.velocity.x < -changeDirection)
+        {
+            direction = -1;
+        }
+        transform.localScale = new Vector3(direction, 1, 1);
+       
     }
     private void movement()
     {
@@ -61,41 +108,69 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-
-    }
-
-
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("DeathZone"))
-
+        detectDirection();
+        if (action && canAction)
         {
-            Debug.Log("DEATH ZONE");
-            // this.gameObject.SetActive(false);
-            SceneManager.LoadScene("GameOverScene");
-
-
-        }
-
-
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Win")) ;
-
-        {
-            if (Input.GetKey(KeyCode.E))
+            bool actionDone = false;
+            if (act.actions.Count > 0)
             {
-                this.gameObject.SetActive(false);
-                Debug.Log("Win");
-                SceneManager.LoadScene("LevelScene");
-            }
+                Action a = act.actions.Peek();
 
+                switch (a)
+                {
+                    case Action.Jump:
+                        if (grounded)
+                            actionDone = act.JumpAction(rb, transform.up * jumpAmount);
+
+                        break;
+                    case Action.Rush:
+                       
+                        canRush = true;
+                        actionDone = act.RushAction(rb, new Vector2(moveVector.x * direction, moveVector.y));
+                        StartCoroutine(rush_Cooldown());
+
+                        break;
+                    case Action.Laser:
+
+                        actionDone = act.LaserAction();
+                        break;
+
+                }
+            }
+            if (actionDone)
+            {
+                act.actions.Dequeue();
+                action = canAction = false;
+                StartCoroutine(action_Cooldown());
+            }
         }
+
+    }
+    private void FixedUpdate()
+    {
+        movement();
     }
 
+
+   
+    public void Heart(Vector2 vect)
+    {
+        if (canBeHurt)
+        {
+            rb.AddForce(vect, ForceMode2D.Impulse);
+            canBeHurt = false;
+            StartCoroutine(invinceble_Cooldown());
+        }
+
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        grounded = true;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        grounded = false;
+    }
 
 
 }

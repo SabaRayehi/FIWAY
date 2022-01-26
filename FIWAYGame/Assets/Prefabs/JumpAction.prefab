@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8216121702017050025}
   - component: {fileID: 8216121702017050026}
   - component: {fileID: 8216121702017050037}
+  - component: {fileID: -54874673974918310}
   m_Layer: 0
   m_Name: JumpAction
   m_TagString: Untagged
@@ -80,6 +81,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-54874673974918310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216121702017050036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05492570746490b45a13b778efb1c74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAction: 0
 --- !u!1 &9109919220712270770
 GameObject:
   m_ObjectHideFlags: 0
