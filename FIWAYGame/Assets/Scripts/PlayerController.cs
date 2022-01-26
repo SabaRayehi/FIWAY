@@ -2,166 +2,179 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 
 {
-
-    public float factor = 0.09f;
-    public float fact = 0.09f;
-    public float jumpAmount = 0.5f;
-    public Rigidbody2D rb;
-
+    [SerializeField]
+    PlayerActions act;
+    [Header("Player Parameters")]
+    [SerializeField]
+    private float fact;
+    [SerializeField]
+    private float factor;
+    [SerializeField]
+    private float jumpAmount;
+    [SerializeField]
+    private Vector2 moveVector;
+    [SerializeField]
+    private float invincible = 2.5f;
+    [Header("Cool Downs")]
+    [SerializeField]
+    private float actionCooldown;
+    [SerializeField]
+    private float rushCooldown;
+    private Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
     private bool Jump;
-    private Vector3 moveVector;
     private Vector3 moves;
-    public int[] arr;
-    public int maxNumber;
-    public Stack<int> stackAction = new Stack<int>();
-    public Stack<GameObject> stackGameobject = new Stack<GameObject>();
-    public GameOverManagement gameOverManagement;
-    public LevelManagment levelManagment;
-   
+    private float horizontalInput;
+    private bool action = false;
+    private bool grounded = false;
+    private bool canRush = false;
+    private bool canAction = true;
+    [SerializeField]
+    private int direction = 1;
+    private float changeDirection = .005f;
+    private bool canBeHurt = true;
 
 
 
-    void Start()
+    private void OnEnable()
     {
-        GameObject  []other;
-
-        Jump = true;
-
-        moveVector = new Vector3(1 * factor, 0, 0);
-        moves= new Vector3( 1 * fact,0, 0);
-
-        int[] arr = new int[] { 0, 0, 1 };
-
-
-        other = GameObject.FindGameObjectsWithTag("Actions");
-
-        maxNumber = GameObject.FindGameObjectsWithTag("Actions").Length;
-
-        Debug.Log("max" + maxNumber);
-
-        for (int i = maxNumber-1; i >=0 ; i--)
-        {
-          stackGameobject.Push(other[i]);
-        }
-        for (int i = (arr.Length) - 1 ; i >=0; i--)
-        {
-            stackAction.Push(arr[i]);
-           
-        }
-       
-
+        act = GameObject.Find("PlayerActions").GetComponent<PlayerActions>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
+    IEnumerator action_Cooldown()
+    {
+        yield return new WaitForSeconds(actionCooldown);
+        canAction = true;
+    }
+
+    IEnumerator rush_Cooldown()
+    {
+        yield return new WaitForSeconds(rushCooldown);
+        canRush = false;
+        rb.velocity = Vector2.zero;
+    }
+
+    IEnumerator invinceble_Cooldown()
+    {
+        yield return new WaitForSeconds(invincible);
+        canBeHurt = true;
+    }
     void Update()
 
     {
- 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            transform.position -= moveVector;
+            action = true;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+     
+
+    }
+    private void detectDirection()
+    {
+        if (rb.velocity.x > changeDirection)
         {
-            transform.position += moveVector;
+            direction = 1;
 
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-       {
-            pleyerActions(stackAction,stackGameobject) ;
-
+        else if (rb.velocity.x < -changeDirection)
+        {
+            direction = -1;
         }
-
-       if (Input.GetKeyDown(KeyCode.DownArrow))
-       {
-            pleyerActions(stackAction,stackGameobject);
-
-        }
-
-       if (Input.GetKeyDown(KeyCode.Space) && Jump)
-       {
-            pleyerActions(stackAction,stackGameobject);
-        }
-      
+        transform.localScale = new Vector3(direction, 1, 1);
        
+    }
+    private void movement()
+    {
+        if (canRush)
+        {
+            if (grounded)
+            {
 
+                rb.velocity = new Vector2((transform.right * fact * horizontalInput).x, rb.velocity.y);
+                transform.Translate(transform.right * fact * horizontalInput * Time.deltaTime);
+            }
 
+            else
+            {
+                rb.velocity = new Vector2((transform.right * factor * horizontalInput).x, rb.velocity.y);
+                transform.Translate(transform.right * factor * horizontalInput * Time.deltaTime);
+            }
 
+        }
+        detectDirection();
+        if (action && canAction)
+        {
+            bool actionDone = false;
+            if (act.actions.Count > 0)
+            {
+                Action a = act.actions.Peek();
+
+                switch (a)
+                {
+                    case Action.Jump:
+                        if (grounded)
+                            actionDone = act.JumpAction(rb, transform.up * jumpAmount);
+
+                        break;
+                    case Action.Rush:
+                       
+                        canRush = true;
+                        actionDone = act.RushAction(rb, new Vector2(moveVector.x * direction, moveVector.y));
+                        StartCoroutine(rush_Cooldown());
+
+                        break;
+                    case Action.Laser:
+
+                        actionDone = act.LaserAction();
+                        break;
+
+                }
+            }
+            if (actionDone)
+            {
+                act.actions.Dequeue();
+                action = canAction = false;
+                StartCoroutine(action_Cooldown());
+            }
+        }
+
+    }
+    private void FixedUpdate()
+    {
+        movement();
     }
 
 
-
-    private void pleyerActions(Stack<int> stackPlayerActions , Stack<GameObject> stackActionsGameobject)
+   
+    public void Heart(Vector2 vect)
     {
-      
-         Debug.Log("stackActions");
-        
-
-        if (stackPlayerActions.Count > 0)
+        if (canBeHurt)
         {
-            var p_actions = stackPlayerActions.Pop();
+            rb.AddForce(vect, ForceMode2D.Impulse);
+            canBeHurt = false;
+            StartCoroutine(invinceble_Cooldown());
+        }
 
-            Debug.Log("currentActions " + p_actions);
-            
-            if (p_actions == 0)
-            {
-               
-                rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
-      
-                 Destroy(stackActionsGameobject.Pop());
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        grounded = true;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        grounded = false;
+    }
 
-            }
+
+}
     
-            else if (p_actions == 1)
-            {
-               rb.AddForce(transform.up * jumpAmount, ForceMode2D.Impulse);
-                transform.position += moves;
-
-                Destroy(stackActionsGameobject.Pop());
-
-            }
-
-
-        }
-
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("DeathZone"))
-
-        {
-            Debug.Log("DEATH ZONE");
-            // this.gameObject.SetActive(false);
-           SceneManager.LoadScene("GameOverScene");
-
-
-        }
-       
-
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Win")) ;
-
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                this.gameObject.SetActive(false);
-                 Debug.Log("Win");
-                 SceneManager.LoadScene("LevelScene");
-            }
-
-        }
-    }
-
-
-
-
-    }
 
 
 
